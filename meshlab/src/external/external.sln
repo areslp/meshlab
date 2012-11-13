@@ -1,0 +1,58 @@
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "bz2", "bzip2-1.0.5\bz2.vcproj", "{C14E450F-CB9F-3A74-8A0E-7B542A7C9D94}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "levmar", "levmar-2.3\levmar.vcproj", "{6D880DE6-F20B-3901-AAE5-72DA5F6BDACD}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ssynth", "structuresynth\ssynth.vcproj", "{CA24730F-215C-3809-818B-3403EAC03667}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "openctm", "OpenCTM-1.0.3\openctm.vcproj", "{E7F300CE-B8F2-325F-8CC2-09B0D7A26CBC}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "jhead", "jhead-2.95\jhead.vcproj", "{478C5449-723E-390F-A9CB-EAC7A5BA453E}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "3ds", "lib3ds-1.3.0\lib3ds\3ds.vcproj", "{BBEACC0A-F8B6-373D-BFA5-E047CFD549D9}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "muparser", "muparser_v132\src\muparser.vcproj", "{35A5C4AA-965E-3BE1-B1CA-41301BAC4C39}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C14E450F-CB9F-3A74-8A0E-7B542A7C9D94}.Debug|Win32.ActiveCfg = Debug|Win32
+		{C14E450F-CB9F-3A74-8A0E-7B542A7C9D94}.Debug|Win32.Build.0 = Debug|Win32
+		{C14E450F-CB9F-3A74-8A0E-7B542A7C9D94}.Release|Win32.ActiveCfg = Release|Win32
+		{C14E450F-CB9F-3A74-8A0E-7B542A7C9D94}.Release|Win32.Build.0 = Release|Win32
+		{6D880DE6-F20B-3901-AAE5-72DA5F6BDACD}.Debug|Win32.ActiveCfg = Debug|Win32
+		{6D880DE6-F20B-3901-AAE5-72DA5F6BDACD}.Debug|Win32.Build.0 = Debug|Win32
+		{6D880DE6-F20B-3901-AAE5-72DA5F6BDACD}.Release|Win32.ActiveCfg = Release|Win32
+		{6D880DE6-F20B-3901-AAE5-72DA5F6BDACD}.Release|Win32.Build.0 = Release|Win32
+		{CA24730F-215C-3809-818B-3403EAC03667}.Debug|Win32.ActiveCfg = Debug|Win32
+		{CA24730F-215C-3809-818B-3403EAC03667}.Debug|Win32.Build.0 = Debug|Win32
+		{CA24730F-215C-3809-818B-3403EAC03667}.Release|Win32.ActiveCfg = Release|Win32
+		{CA24730F-215C-3809-818B-3403EAC03667}.Release|Win32.Build.0 = Release|Win32
+		{E7F300CE-B8F2-325F-8CC2-09B0D7A26CBC}.Debug|Win32.ActiveCfg = Debug|Win32
+		{E7F300CE-B8F2-325F-8CC2-09B0D7A26CBC}.Debug|Win32.Build.0 = Debug|Win32
+		{E7F300CE-B8F2-325F-8CC2-09B0D7A26CBC}.Release|Win32.ActiveCfg = Release|Win32
+		{E7F300CE-B8F2-325F-8CC2-09B0D7A26CBC}.Release|Win32.Build.0 = Release|Win32
+		{478C5449-723E-390F-A9CB-EAC7A5BA453E}.Debug|Win32.ActiveCfg = Debug|Win32
+		{478C5449-723E-390F-A9CB-EAC7A5BA453E}.Debug|Win32.Build.0 = Debug|Win32
+		{478C5449-723E-390F-A9CB-EAC7A5BA453E}.Release|Win32.ActiveCfg = Release|Win32
+		{478C5449-723E-390F-A9CB-EAC7A5BA453E}.Release|Win32.Build.0 = Release|Win32
+		{BBEACC0A-F8B6-373D-BFA5-E047CFD549D9}.Debug|Win32.ActiveCfg = Debug|Win32
+		{BBEACC0A-F8B6-373D-BFA5-E047CFD549D9}.Debug|Win32.Build.0 = Debug|Win32
+		{BBEACC0A-F8B6-373D-BFA5-E047CFD549D9}.Release|Win32.ActiveCfg = Release|Win32
+		{BBEACC0A-F8B6-373D-BFA5-E047CFD549D9}.Release|Win32.Build.0 = Release|Win32
+		{35A5C4AA-965E-3BE1-B1CA-41301BAC4C39}.Debug|Win32.ActiveCfg = Debug|Win32
+		{35A5C4AA-965E-3BE1-B1CA-41301BAC4C39}.Debug|Win32.Build.0 = Debug|Win32
+		{35A5C4AA-965E-3BE1-B1CA-41301BAC4C39}.Release|Win32.ActiveCfg = Release|Win32
+		{35A5C4AA-965E-3BE1-B1CA-41301BAC4C39}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		QtVersion = 4.8.2
+	EndGlobalSection
+EndGlobal
