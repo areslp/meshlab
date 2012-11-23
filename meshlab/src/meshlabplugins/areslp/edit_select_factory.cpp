@@ -31,11 +31,15 @@ EditSelectFactory::EditSelectFactory()
     saveCurvature = new QAction(QIcon(":/images/Number_003.png"), "Save face curvature", this);
     setFaceQ2 = new QAction(QIcon(":/images/Number_004.png"), "Set face quality2 Histogram", this);
 	saveFaceQ = new QAction(QIcon(":/images/Number_005.png"), "Save face quality", this);
+	setFaceQ3 = new QAction(QIcon(":/images/Number_006.png"), "Set face quality (princeton)", this);
+	sepFaceQ = new QAction(QIcon(":/images/Number_007.png"), "Seperate face quality (princeton)", this);
     actionList << setQ;
     actionList << setFaceQ;
     actionList << saveCurvature;
     actionList << setFaceQ2;
 	actionList << saveFaceQ;
+	actionList << setFaceQ3;
+	actionList << sepFaceQ;
     foreach(QAction * editAction, actionList)
         editAction->setCheckable(true);
 }
@@ -59,6 +63,10 @@ MeshEditInterface* EditSelectFactory::getMeshEditInterface(QAction *action)
         return new EditSelectPlugin(EditSelectPlugin::SAVE_CURVATURE);
 	if(action == saveFaceQ)
 		return new EditSelectPlugin(EditSelectPlugin::SAVE_FACE_Q);
+	if(action == setFaceQ3)
+		return new EditSelectPlugin(EditSelectPlugin::SET_FACE_Q3);
+	if(action == sepFaceQ)
+		return new EditSelectPlugin(EditSelectPlugin::SAVE_SEP_LABEL);
 
     assert(0); //should never be asked for an action that isnt here
 }

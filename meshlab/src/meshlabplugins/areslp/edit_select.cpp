@@ -36,7 +36,7 @@
 #include <vcg/complex/allocate.h>
 #include <QMessageBox>
 #include <fstream>
-
+#include <boost/lexical_cast.hpp>
 
 using namespace std;
 using namespace vcg;
@@ -140,6 +140,7 @@ void EditSelectPlugin::set_vert_q(MeshModel& m){
 void normalize(std::map<int,double>& m);
 
 
+// read [faceid q] file and do histogram [per] before colorize the mesh
 void EditSelectPlugin::set_face_q(MeshModel& m,float per){
     if(!m.hasDataMask(MeshModel::MM_FACEQUALITY)) {
         m.updateDataMask(MeshModel::MM_FACEQUALITY);
@@ -185,7 +186,7 @@ void EditSelectPlugin::set_face_q(MeshModel& m,float per){
         if (qm.find(i)!=qm.end()) {
             cm.face[i].Q()=qm[i];
         }else{
-            cm.face[i].Q()=0;
+            cm.face[i].Q()=-1;
         }
     }
     // QMessageBox::information(NULL, "Title", "Complete", QMessageBox::Yes | QMessageBox::Yes);
@@ -207,6 +208,70 @@ void EditSelectPlugin::set_face_q(MeshModel& m,float per){
     tri::UpdateColor<CMeshO>::FaceQualityRamp(m.cm,PercLo,PercHi);
 }
 
+// read *.seg file and set the face quality
+void EditSelectPlugin::set_face_q3(MeshModel& m){
+	if(!m.hasDataMask(MeshModel::MM_FACEQUALITY)) {
+		m.updateDataMask(MeshModel::MM_FACEQUALITY);
+	}
+	//read quality file
+	QFileDialog fileDialog;
+	QString qfile;
+	fileDialog.setWindowTitle(tr("Open File"));
+	QDir dir;
+	fileDialog.setDirectory(dir.currentPath());
+	fileDialog.setFilter(tr("Filter File(*)"));
+
+	std::map<int,double> qm;
+
+	if(fileDialog.exec() == QDialog::Accepted) {
+		qfile = fileDialog.selectedFiles()[0];
+
+		if(!qfile.isEmpty()) {
+			std::string tstring=qfile.toStdString();
+			// qDebug()<<tstring.c_str();
+			std::ifstream ifile(tstring.c_str());
+			double v;
+			int i=0;
+			while(ifile >> v) {
+				// qDebug()<<i<<" "<<v;
+				qm.insert(make_pair<int,double>(i,v));
+				i++;
+			}
+			ifile.close();
+		} else {
+		}
+		// QMessageBox::information(NULL, tr("Path"), tr("You selected ") + qfile);
+	} else {
+		// QMessageBox::information(NULL, tr("Path"), tr("You didn't select any files."));
+	}
+
+	normalize(qm);
+
+	CMeshO& cm=m.cm;
+	int face_size=cm.face.size();
+	for (int i = 0; i < face_size; i++) {
+		cm.face[i].Q()=qm[i];
+	}
+	// QMessageBox::information(NULL, "Title", "Complete", QMessageBox::Yes | QMessageBox::Yes);
+
+	pair<float,float> minmax;
+	minmax = tri::Stat<CMeshO>::ComputePerFaceQualityMinMax(m.cm);
+	qDebug()<<minmax.first;
+	qDebug()<<minmax.second;
+	m.updateDataMask(MeshModel::MM_FACECOLOR);
+	float RangeMin = minmax.first;
+	float RangeMax = minmax.second;
+	float perc = 0.0;
+
+	Histogramf H;
+	tri::Stat<CMeshO>::ComputePerFaceQualityHistogram(m.cm,H);
+	float PercLo = H.Percentile(perc/100.f);
+	float PercHi = H.Percentile(1.0-perc/100.f);
+
+	tri::UpdateColor<CMeshO>::FaceQualityRamp(m.cm,PercLo,PercHi);
+}
+
+// save face curvature by average the curvature of it's three vertex
 void EditSelectPlugin::save_curvature(MeshModel &m)
 {
     CMeshO& cm=m.cm;
@@ -236,6 +301,7 @@ void EditSelectPlugin::save_curvature(MeshModel &m)
     }
     oo.close();
 }
+
 
 void EditSelectPlugin::save_face_q(MeshModel &m)
 {
@@ -269,6 +335,84 @@ void EditSelectPlugin::save_face_q(MeshModel &m)
 }
 
 
+void EditSelectPlugin::save_sep_label(MeshModel &m)
+{
+	// read segmentation result (benchmark)
+	if(!m.hasDataMask(MeshModel::MM_FACEQUALITY)) {
+		m.updateDataMask(MeshModel::MM_FACEQUALITY);
+	}
+	//read quality file
+	QFileDialog fileDialog;
+	QString qfile;
+	fileDialog.setWindowTitle(tr("Open File"));
+	QDir dir;
+	fileDialog.setDirectory(dir.currentPath());
+	fileDialog.setFilter(tr("Filter File(*)"));
+
+	std::map<int,double> qm;
+
+	if(fileDialog.exec() == QDialog::Accepted) {
+		qfile = fileDialog.selectedFiles()[0];
+
+		if(!qfile.isEmpty()) {
+			std::string tstring=qfile.toStdString();
+			// qDebug()<<tstring.c_str();
+			std::ifstream ifile(tstring.c_str());
+			double v;
+			int i=0;
+			while(ifile >> v) {
+				// qDebug()<<i<<" "<<v;
+				qm.insert(make_pair<int,double>(i,v));
+				i++;
+			}
+			ifile.close();
+		} else {
+		}
+		// QMessageBox::information(NULL, tr("Path"), tr("You selected ") + qfile);
+	} else {
+		// QMessageBox::information(NULL, tr("Path"), tr("You didn't select any files."));
+	}
+	// save benchmark segmentation result to LP format for over-segementation
+	CMeshO& cm=m.cm;
+	std::string path=dir.currentPath().toStdString();
+	path.append("/faceq.txt");
+	std::ofstream ooo(path.c_str());
+	int face_size=cm.face.size();
+	for (int i = 0; i < face_size; i++) {
+		cm.face[i].Q()=qm[i];
+		ooo<<i<<" "<<qm[i]<<std::endl;
+	}
+	ooo.close();
+	// QMessageBox::information(NULL, "Title", "Complete", QMessageBox::Yes | QMessageBox::Yes);
+
+	pair<float,float> minmax;
+	minmax = tri::Stat<CMeshO>::ComputePerFaceQualityMinMax(m.cm);
+	qDebug()<<minmax.first;
+	qDebug()<<minmax.second;
+
+	int minv=minmax.first;
+	int maxv=minmax.second;
+
+	for (int l=minv;l<=maxv;l++)
+	{
+		std::string ofs=dir.currentPath().toStdString();
+		ofs.append("/faceq");
+		ofs.append(boost::lexical_cast<std::string>(l+1));
+		ofs.append(".txt");
+		qDebug()<<"ofs:"<<ofs.c_str();
+		ofstream oo(ofs.c_str());
+		for (int i = 0; i < face_size; i++) {
+			if ((int)(cm.face[i].Q())==l)
+			{
+				oo<<i<<" "<<l<<std::endl;
+			}
+		}
+		oo.close();
+	}
+	
+}
+
+
 void EditSelectPlugin::EndEdit(MeshModel &m, GLArea * gla)
 {
 }
@@ -290,6 +434,12 @@ bool EditSelectPlugin::StartEdit(MeshModel &m, GLArea *gla)
     }
 	if (mode_==SAVE_FACE_Q) {
 		save_face_q(m);
+	}
+	if (mode_==SET_FACE_Q3) {
+		set_face_q3(m);
+	}
+	if (mode_==SAVE_SEP_LABEL) {
+		save_sep_label(m);
 	}
     // gla->setColorMode(GLW::CMPerFace);
     // QList<int> models;

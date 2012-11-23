@@ -32,7 +32,7 @@ class EditSelectPlugin : public QObject, public MeshEditInterface
 
 
 public:
-    enum { SET_VERT_Q, SET_FACE_Q, SAVE_CURVATURE ,SET_FACE_Q2, SAVE_FACE_Q} ;
+    enum { SET_VERT_Q, SET_FACE_Q, SAVE_CURVATURE ,SET_FACE_Q2, SAVE_FACE_Q, SET_FACE_Q3, SAVE_SEP_LABEL} ;
 
     EditSelectPlugin(int mode);
 
@@ -55,6 +55,8 @@ private:
     void set_face_q(MeshModel &m,float per);
     void save_curvature(MeshModel &m);
 	void save_face_q(MeshModel &m);
+	void set_face_q3(MeshModel &m);
+	void save_sep_label(MeshModel &m);
 };
 
 #endif
