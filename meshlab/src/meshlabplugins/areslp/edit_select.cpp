@@ -303,6 +303,33 @@ void EditSelectPlugin::save_curvature(MeshModel &m)
 }
 
 
+void EditSelectPlugin::save_vert_q(MeshModel &m)
+{
+	CMeshO& cm=m.cm;
+	if(!m.hasDataMask(MeshModel::MM_VERTFACETOPO)) {
+		m.updateDataMask(MeshModel::MM_VERTFACETOPO);
+	}
+	if(!m.hasDataMask(MeshModel::MM_VERTCURV)) {
+		m.updateDataMask(MeshModel::MM_VERTCURV);
+		// vcg::tri::UpdateCurvature<CMeshO>::VertexCurvature(cm);
+	}
+	//当前目录
+	QDir dir;
+	//dir.currentPath();
+	//设置输出文件
+	std::string ofs=dir.currentPath().toStdString();
+	ofs.append("/vq_ml.txt");
+	qDebug()<<"ofs:"<<ofs.c_str();
+	ofstream oo(ofs.c_str());
+	int vert_size=cm.vert.size();
+	for (int i = 0; i < vert_size; i++) {
+		CMeshO::VertexType v=cm.vert[i];
+		float gc=v.Q();
+		oo<<i<<" "<<gc<<endl;
+	}
+	oo.close();
+}
+
 void EditSelectPlugin::save_face_q(MeshModel &m)
 {
 	CMeshO& cm=m.cm;
@@ -440,6 +467,9 @@ bool EditSelectPlugin::StartEdit(MeshModel &m, GLArea *gla)
 	}
 	if (mode_==SAVE_SEP_LABEL) {
 		save_sep_label(m);
+	}
+	if (mode_==SAVE_VERT_Q) {
+		save_vert_q(m);
 	}
     // gla->setColorMode(GLW::CMPerFace);
     // QList<int> models;

@@ -41,6 +41,8 @@ public:
         delete saveCurvature;
 		delete saveFaceQ;
 		delete setFaceQ3;
+		delete sepFaceQ;
+		delete saveVertQ;
     }
 
     //gets a list of actions available from this plugin
@@ -62,6 +64,7 @@ private:
 	QAction *saveFaceQ;
 	QAction *setFaceQ3;
 	QAction *sepFaceQ;
+	QAction *saveVertQ;
 };
 
 #endif
