@@ -129,7 +129,13 @@ void EditSelectPlugin::set_vert_q(MeshModel& m){
     }
 
     CMeshO& cm=m.cm;
-    int point_size=cm.vert.size();
+
+	int point_size=cm.vert.size();
+	for (int i = 0; i < point_size; i++) {
+		cm.vert[i].Q()=-1;
+	}
+
+
     for (int i = 0; i < point_size; i++) {
         cm.vert[i].Q()=qm[i];
     }
