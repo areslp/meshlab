@@ -146,6 +146,71 @@ void EditSelectPlugin::set_vert_q(MeshModel& m){
 void normalize(std::map<int,double>& m);
 
 
+// for paper
+void EditSelectPlugin::set_face_q(MeshModel& m){
+	if(!m.hasDataMask(MeshModel::MM_FACEQUALITY)) {
+		m.updateDataMask(MeshModel::MM_FACEQUALITY);
+	}
+	//read quality file
+	QFileDialog fileDialog;
+	QString qfile;
+	fileDialog.setWindowTitle(tr("Open File"));
+	QDir dir;
+	fileDialog.setDirectory(dir.currentPath());
+	fileDialog.setFilter(tr("Filter File(*)"));
+
+	std::map<int,double> qm;
+
+	if(fileDialog.exec() == QDialog::Accepted) {
+		qfile = fileDialog.selectedFiles()[0];
+
+		if(!qfile.isEmpty()) {
+			std::string tstring=qfile.toStdString();
+			// qDebug()<<tstring.c_str();
+			std::ifstream ifile(tstring.c_str());
+
+			int i;
+			double v;
+
+			while(ifile >> i >> v) {
+				// qDebug()<<i<<" "<<v;
+				qm.insert(make_pair<int,double>(i,v));
+			}
+			ifile.close();
+		} else {
+		}
+		// QMessageBox::information(NULL, tr("Path"), tr("You selected ") + qfile);
+	} else {
+		// QMessageBox::information(NULL, tr("Path"), tr("You didn't select any files."));
+	}
+
+	//normalize(qm);
+
+	CMeshO& cm=m.cm;
+	int face_size=cm.face.size();
+	for (int i = 0; i < face_size; i++) {
+		if (qm.find(i)!=qm.end()) {
+			cm.face[i].Q()=qm[i];
+		}else{
+			cm.face[i].Q()=-1;
+		}
+	}
+	// QMessageBox::information(NULL, "Title", "Complete", QMessageBox::Yes | QMessageBox::Yes);
+
+	pair<float,float> minmax;
+	minmax = tri::Stat<CMeshO>::ComputePerFaceQualityMinMax(m.cm);
+	qDebug()<<minmax.first;
+	qDebug()<<minmax.second;
+	m.updateDataMask(MeshModel::MM_FACECOLOR);
+
+	for (int i = 0; i < face_size; i++) {
+		//qDebug()<<cm.face[i].Q();
+		cm.face[i].C().SetColorRamp(cm.face[i].Q());
+	}
+	
+}
+
+
 // read [faceid q] file and do histogram [per] before colorize the mesh
 void EditSelectPlugin::set_face_q(MeshModel& m,float per){
     if(!m.hasDataMask(MeshModel::MM_FACEQUALITY)) {
@@ -458,6 +523,7 @@ bool EditSelectPlugin::StartEdit(MeshModel &m, GLArea *gla)
     }
     if (mode_==SET_FACE_Q) {
         set_face_q(m,0.0);
+		//set_face_q(m);
     }
     if (mode_==SET_FACE_Q2) {
         set_face_q(m,5.0);
@@ -476,6 +542,9 @@ bool EditSelectPlugin::StartEdit(MeshModel &m, GLArea *gla)
 	}
 	if (mode_==SAVE_VERT_Q) {
 		save_vert_q(m);
+	}
+	if (mode_==SET_Q_PAPER) {
+		set_face_q(m);
 	}
     // gla->setColorMode(GLW::CMPerFace);
     // QList<int> models;

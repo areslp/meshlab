@@ -1413,7 +1413,7 @@ void MainWindow::applyEditMode()
 	GLA()->setCurrentEditAction(action);
 
 	updateMenus();
-    GLA()->setColorMode(GLW::CMPerFace);
+    //GLA()->setColorMode(GLW::CMPerFace);
     endEdit();
 }
 

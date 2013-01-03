@@ -32,7 +32,7 @@ class EditSelectPlugin : public QObject, public MeshEditInterface
 
 
 public:
-    enum { SET_VERT_Q, SET_FACE_Q, SAVE_CURVATURE ,SET_FACE_Q2, SAVE_FACE_Q, SET_FACE_Q3, SAVE_SEP_LABEL, SAVE_VERT_Q} ;
+    enum { SET_VERT_Q, SET_FACE_Q, SAVE_CURVATURE ,SET_FACE_Q2, SAVE_FACE_Q, SET_FACE_Q3, SAVE_SEP_LABEL, SAVE_VERT_Q,SET_Q_PAPER} ;
 
     EditSelectPlugin(int mode);
 
@@ -48,11 +48,11 @@ public:
     virtual void keyReleaseEvent(QKeyEvent *, MeshModel &/*m*/, GLArea *);
     virtual void keyPressEvent(QKeyEvent *, MeshModel &/*m*/, GLArea *);
     
-
     int mode_;
 private:
     void set_vert_q(MeshModel &m);
     void set_face_q(MeshModel &m,float per);
+	void set_face_q(MeshModel &m); // set a proper color, used in paper
     void save_curvature(MeshModel &m);
 	void save_face_q(MeshModel &m);
 	void set_face_q3(MeshModel &m);

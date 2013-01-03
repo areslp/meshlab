@@ -76,6 +76,7 @@ Edited Comments and GPL license
 
 #include <vcg/space/point3.h>
 #include <vcg/space/point4.h>
+#include <iostream>
 
 namespace vcg {
 
@@ -98,7 +99,7 @@ public:
 		Gray		=0xff808080,
 		White  =0xffffffff,
 
-    Red    =0xff0000ff,
+    Red    =0xff0000ff, // 0xff B G R
 	  Green  =0xff00ff00,
 	  Blue   =0xffff0000,
 
@@ -114,7 +115,15 @@ public:
 		DarkGray		=0xff404040,
 		DarkRed		  =0xff000040,
 		DarkGreen   =0xff004000,
-		DarkBlue		=0xff400000
+		DarkBlue		=0xff400000,
+
+	SEGCOLOR1	=0xff6060C8, //Plum1 粉色
+	SEGCOLOR2	=0xffA3670A, //Turquoise3 天蓝色
+	SEGCOLOR3	=0xff818734, //Medium Aquamarine 墨绿色
+	SEGCOLOR4	=0xff60B5C8, //Light Goldenrod3 //土色
+	SEGCOLOR5	=0xff64E957, //Spring Green2 //绿色
+	SEGCOLOR6	=0xff1772F8 //Dark Orange1 橘黄色
+	
 	};
 
   inline Color4 ( const T nx, const T ny, const T nz , const T nw ) :Point4<T>(nx,ny,nz,nw) {};
@@ -167,6 +176,7 @@ public:
 	inline void lerp(const Color4 &c0, const Color4 &c1, const Color4 &c2, const Point3f &ip);
   /// given a float and a range set the corresponding color in the well known red->green->blue color ramp. To reverse the direction of the ramp just swap minf and maxf.
     inline void SetColorRamp(const float &minf,const float  &maxf ,float v );
+	inline void SetColorRamp(float v ); //added by lp
 	inline void SetRGB( unsigned char r, unsigned char g, unsigned char b )
 	{
 		(*this)[0] = r;
@@ -277,6 +287,44 @@ inline void Color4<T>::lerp(const Color4<T> &c0, const Color4<T> &c1, const Colo
 	(*this)[2]=(T)(c0[2]*ip[0] + c1[2]*ip[1]+ c2[2]*ip[2]);
 	(*this)[3]=(T)(c0[3]*ip[0] + c1[3]*ip[1]+ c2[3]*ip[2]);
 }
+
+
+template <class T>
+inline void Color4<T>::SetColorRamp(float v)
+{
+	//SEGCOLOR1	=0xffF9B7FF, //Plum1
+	//SETCOLOR2	=0xffB4CFEC, //Slate Gray2
+	//SETCOLOR3	=0xff348781, //Medium Aquamarine
+	//SETCOLOR4	=0xffF87217, //Dark Orange1
+	//SETCOLOR5	=0xffC8B560, //Light Goldenrod3
+	//SETCOLOR6	=0xff54C571, //Sea Green3
+	int vv=int(v+0.5); //四舍五入
+	std::cout<<"vv:"<<vv<<std::endl;
+	switch(vv){
+		case 1:
+			*this= Color4<T>(Color4<T>::SEGCOLOR1);
+			break;
+		case 2:
+			*this= Color4<T>(Color4<T>::SEGCOLOR2);
+			break;
+		case 3:
+			*this= Color4<T>(Color4<T>::SEGCOLOR3);
+			break;
+		case 4:
+			*this= Color4<T>(Color4<T>::SEGCOLOR4);
+			break;
+		case 5:
+			*this= Color4<T>(Color4<T>::SEGCOLOR5);
+			break;
+		case 6:
+			*this= Color4<T>(Color4<T>::SEGCOLOR6);
+			break;
+		default:
+			*this= Color4<T>(Color4<T>::White);
+			break;
+	}
+}
+
 
 template <class T>
 inline void Color4<T>::SetColorRamp(const float &minf,const float  &maxf ,float v )

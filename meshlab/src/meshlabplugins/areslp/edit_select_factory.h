@@ -43,6 +43,7 @@ public:
 		delete setFaceQ3;
 		delete sepFaceQ;
 		delete saveVertQ;
+		delete setFaceQPaper;
     }
 
     //gets a list of actions available from this plugin
@@ -65,6 +66,7 @@ private:
 	QAction *setFaceQ3;
 	QAction *sepFaceQ;
 	QAction *saveVertQ;
+	QAction *setFaceQPaper;
 };
 
 #endif
