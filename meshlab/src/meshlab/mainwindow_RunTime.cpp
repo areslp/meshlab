@@ -1413,8 +1413,21 @@ void MainWindow::applyEditMode()
 	GLA()->setCurrentEditAction(action);
 
 	updateMenus();
-    //GLA()->setColorMode(GLW::CMPerFace);
-    endEdit();
+
+	qDebug()<<qPrintable(action->text());
+	if("Set face quality"==action->text() || "Set face quality2 Histogram"==action->text() 
+		|| "Set face quality (princeton)"==action->text() || "set face quality paper"==action->text())
+	{
+		qDebug()<<"got cha!";
+		GLA()->setColorMode(GLW::CMPerFace);
+		endEdit();
+	}
+	if("Set vertex quality"==action->text() )
+	{
+		qDebug()<<"got cha!";
+		GLA()->setColorMode(GLW::CMPerVert);
+		endEdit();
+	}
 }
 
 void MainWindow::applyRenderMode()
