@@ -56,6 +56,10 @@ public:
     std::vector<CMeshO::FacePointer> LastSelFace;
     std::vector<CMeshO::VertexPointer> LastSelVert;
 
+	//std::vector<CMeshO::FacePointer> LpSelFace; 
+	//save the current sel faces, used in mouseReleaseEvent to output the results
+	//dont need this, we just iterate the mesh and find which face is selected!
+
 signals:
 	void setSelectionRendering(bool);
 
