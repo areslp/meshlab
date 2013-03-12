@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'rfx_colorbox.h'
 **
-** Created: Sat Oct 6 20:29:16 2012
+** Created: Thu Jan 24 17:06:09 2013
 **      by: The Qt Meta Object Compiler version 63 (Qt 4.8.1)
 **
 ** WARNING! All changes made in this file will be lost!
