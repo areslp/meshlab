@@ -1095,6 +1095,9 @@ void QualityMapperDialog::on_applyButton_clicked()
 	float minQuality = ui.minSpinBox->value();	
 	float maxQuality = ui.maxSpinBox->value();	
 
+	// TODO: LP, set maxQuality=0.1745, 10¶È
+	maxQuality=0.1745;
+
 	// brightness value between 0 and 2
 	float brightness = (1.0f - (float)(ui.brightnessSlider->value())/(float)(ui.brightnessSlider->maximum()) )*2.0;
 

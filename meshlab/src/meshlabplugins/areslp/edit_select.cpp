@@ -97,6 +97,11 @@ void EditSelectPlugin::set_vert_q(MeshModel& m){
         m.updateDataMask(MeshModel::MM_VERTQUALITY);
     }
     //read quality file
+	if (!isset)
+	{
+
+	}
+	
     QFileDialog fileDialog;
     QString qfile;
     fileDialog.setWindowTitle(tr("Open File"));
@@ -116,10 +121,17 @@ void EditSelectPlugin::set_vert_q(MeshModel& m){
             int i;
             double v;
 
+			ofstream fpoints("ml_points.txt");
+
             while(ifile >> i >> v) {
                 // qDebug()<<i<<" "<<v;
                 qm.insert(make_pair<int,double>(i,v));
+
+				fpoints<<m.cm.vert[i].P()[0]<<" "<<m.cm.vert[i].P()[1]<<" "<<m.cm.vert[i].P()[2]<<std::endl;
             }
+
+			fpoints.close();
+
             ifile.close();
         } else {
         }

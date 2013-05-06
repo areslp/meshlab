@@ -270,6 +270,8 @@ void GLArea::drawGradient()
 	glDisable(GL_LIGHTING);
 	glDisable(GL_TEXTURE_2D);
 
+	//draw a canvas on the whole screen 0xffbgr
+	//glas.backgroundTopColor=vcg::Color4b(0x00ffffff);
 	glBegin(GL_TRIANGLE_STRIP);
 	glColor(glas.backgroundTopColor);  	glVertex2f(-1, 1);
 	glColor(glas.backgroundBotColor);	glVertex2f(-1,-1);
@@ -288,6 +290,8 @@ void GLArea::drawLight()
 {
 	// ============== LIGHT TRACKBALL ==============
 	// Apply the trackball for the light direction
+
+
 	glPushMatrix();
 	trackball_light.GetView();
 	trackball_light.Apply(!(isDefaultTrackBall()));

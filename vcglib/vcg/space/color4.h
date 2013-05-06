@@ -341,12 +341,13 @@ namespace vcg {
 	inline void Color4<T>::SetColorRamp(const float &minf,const float  &maxf ,float v )
 	{
 		if(minf>maxf) { SetColorRamp(maxf,minf,maxf+(minf-v)); return; }
-		if(v <  minf ) { *this=Color4<T>(Color4<T>::Red); return; }
+		//if(v <  minf ) { *this=Color4<T>(Color4<T>::Red); return; }
+		if(v <=  minf ) { *this=Color4<T>(Color4<T>::Gray); return; }
 		//the case v > maxf is handled automatically at the end of the function
 
 		float step=(maxf-minf)/4;
 		v-=minf;
-		if(v<step) {lerp(Color4<T>(Color4<T>::Red),  Color4<T>(Color4<T>::Yellow),v/step); return;}
+		if(v<step&&v>0) {lerp(Color4<T>(Color4<T>::Red),  Color4<T>(Color4<T>::Yellow),v/step); return;}
 		v-=step;
 		if(v<step) {lerp(Color4<T>(Color4<T>::Yellow),Color4<T>(Color4<T>::Green),v/step);return;}
 		v-=step;

@@ -76,6 +76,8 @@ public:
      
   ExtraMeshDecoratePlugin()
   {
+	  isset=false;
+	  pointlist.clear();
       typeList <<
                   DP_SHOW_VERT <<
                   DP_SHOW_NON_FAUX_EDGE <<
@@ -156,6 +158,8 @@ public slots:
 
 private:
   vcg::Shotf curShot;
+  std::vector<int> pointlist;
+  bool isset;
 };
 
 #endif

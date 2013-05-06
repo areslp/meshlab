@@ -28,6 +28,7 @@
 #include <meshlab/glarea.h>
 #include <wrap/qt/checkGLError.h>
 #include <wrap/qt/gl_label.h>
+#include <fstream>
 
 using namespace vcg;
 using namespace std;
@@ -107,7 +108,9 @@ void ExtraMeshDecoratePlugin::decorate(QAction *a, MeshDocument &md, RichParamet
         {
             glPushAttrib(GL_ENABLE_BIT );
             float NormalLen=rm->getFloat(NormalLength());
+			cout<<"normal len:"<<NormalLen<<endl;
             float LineLen = m.cm.bbox.Diag()*NormalLen;
+			cout<<"linelen:"<<LineLen<<endl;
             CMeshO::VertexIterator vi;
             CMeshO::FaceIterator fi;
             glDisable(GL_LIGHTING);
@@ -115,14 +118,28 @@ void ExtraMeshDecoratePlugin::decorate(QAction *a, MeshDocument &md, RichParamet
             glEnable(GL_BLEND);
             glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
             glBegin(GL_LINES);
+			CMeshO& cm=m.cm;
             if(ID(a) == DP_SHOW_VERT_NORMALS)
 			{
-				glColor4f(.4f,.4f,1.f,.6f);
-                for(vi=m.cm.vert.begin();vi!=m.cm.vert.end();++vi) if(!(*vi).IsD())
-                {
-                    glVertex((*vi).P());
-                    glVertex((*vi).P()+(*vi).N()*LineLen);
-                }
+				
+				if (pointlist.size()==0)
+				{
+					glColor4f(.4f,.4f,1.f,.6f);
+					for(vi=m.cm.vert.begin();vi!=m.cm.vert.end();++vi) if(!(*vi).IsD())
+					{
+						glVertex((*vi).P());
+						glVertex((*vi).P()+(*vi).N()*LineLen);
+					}
+				}else{
+					for (int tt=0;tt<pointlist.size();tt++)
+					{
+						glColor4f(.4f,.4f,1.f,.6f);
+						int index=pointlist[tt];
+						glVertex(cm.vert[index].P());
+						glVertex(cm.vert[index].P()+cm.vert[index].N()*LineLen);
+					}
+				}
+				
 			}
             else
                 if( ID(a) == DP_SHOW_VERT_PRINC_CURV_DIR){
@@ -807,6 +824,39 @@ bool ExtraMeshDecoratePlugin::startDecorate(QAction * action, MeshDocument &md, 
 {	
   switch(ID(action))
   {
+  case DP_SHOW_VERT_NORMALS:
+	{
+		isset=false;
+		pointlist.clear();
+		if (!isset)
+		{
+			// read display point list
+			QFileDialog fileDialog;
+			QString qfile;
+			fileDialog.setWindowTitle(tr("Open File"));
+			QDir dir;
+			fileDialog.setDirectory(dir.currentPath());
+			fileDialog.setFilter(tr("Filter File(*)"));
+
+			if(fileDialog.exec() == QDialog::Accepted) {
+				qfile = fileDialog.selectedFiles()[0];
+
+				if(!qfile.isEmpty()) {
+					std::string tstring=qfile.toStdString();
+					std::ifstream ifile(tstring.c_str());
+					int i;
+					while(ifile >> i) {
+						// qDebug()<<i<<" "<<v;
+						pointlist.push_back(i);
+					}
+					ifile.close();		
+				} 
+				isset=true;
+				//QMessageBox::information(NULL, tr("Path"), tr("You selected ") + qfile);
+			} 
+		}
+	}
+	break;
   case DP_SHOW_NON_FAUX_EDGE :
   {
     MeshModel *m=md.mm();

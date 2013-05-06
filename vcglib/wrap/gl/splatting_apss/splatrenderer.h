@@ -373,9 +373,14 @@ void SplatRenderer<MeshType>::Render(std::vector<MeshType*> & meshes,  vcg::GLW:
 		// FIXME since meshlab does not set any material properties, let's define some here
 		glDisable(GL_COLOR_MATERIAL);
 		glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, 64);
-		glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, vcg::Point4f(0.3, 0.3, 0.3, 1.).V());
-		glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, vcg::Point4f(0.6, 0.6, 0.6, 1.).V());
-		glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, vcg::Point4f(0.5, 0.5, 0.5, 1.).V());
+		//glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, vcg::Point4f(0.3, 0.3, 0.3, 1.).V());
+		//glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, vcg::Point4f(0.6, 0.6, 0.6, 1.).V());
+		//glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, vcg::Point4f(0.5, 0.5, 0.5, 1.).V());
+
+
+		glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, vcg::Point4f(0.847, 0.847, 0.847, 1.).V());
+		glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, vcg::Point4f(0.847, 0.847, 0.847, 1.).V());
+		glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, vcg::Point4f(0.847, 0.847, 0.847, 1.).V());
 
 		mRenderBuffer->bind();
 		if (mFlags&DEFERRED_SHADING_BIT)
