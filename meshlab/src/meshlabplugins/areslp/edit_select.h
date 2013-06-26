@@ -32,13 +32,15 @@ class EditSelectPlugin : public QObject, public MeshEditInterface
 
 
 public:
-    enum { SET_VERT_Q, SET_FACE_Q, SAVE_CURVATURE ,SET_FACE_Q2, SAVE_FACE_Q, SET_FACE_Q3, SAVE_SEP_LABEL, SAVE_VERT_Q,SET_Q_PAPER} ;
+    enum { SET_VERT_Q, SET_FACE_Q, SAVE_CURVATURE ,SET_FACE_Q2, SAVE_FACE_Q, 
+		SET_FACE_Q3, SAVE_SEP_LABEL, SAVE_VERT_Q, SET_Q_PAPER} ;
 
     EditSelectPlugin(int mode);
 
     virtual ~EditSelectPlugin() {}
 
     static QString Info();
+	QString filterName(FilterIDType filter) const;
     virtual bool StartEdit(MeshModel &/*m*/, GLArea * /*parent*/);
     virtual void EndEdit(MeshModel &/*m*/, GLArea * /*parent*/) ;
     virtual void Decorate(MeshModel &/*m*/, GLArea * /*parent*/);

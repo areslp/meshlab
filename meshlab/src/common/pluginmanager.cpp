@@ -198,16 +198,26 @@ QMap<QString, RichParameterSet> PluginManager::generateFilterParameterMap()
     QMap<QString, RichParameterSet> FPM;
     MeshDocument md;
     MeshModel* mm = md.addNewMesh("", "dummy", true);
+	md.addNewRaster();
     vcg::tri::Tetrahedron<CMeshO>(mm->cm);
     mm->updateDataMask(MeshModel::MM_ALL);
     QMap<QString, QAction*>::iterator ai;
 
     for(ai = this->actionFilterMap.begin(); ai != this->actionFilterMap.end(); ++ai) {
         QString filterName = ai.key();//  ->filterName();
+		qDebug()<<ai.key();
         //QAction act(filterName,NULL);
+		//if (filterName.toLower().toStdString()=="filtername")
+		//{
+		//	qDebug()<<filterName;
+		//	int aaa=0;
+		//	aaa++;
+		//}
+		
         RichParameterSet rp;
         stringFilterMap[filterName]->initParameterSet(ai.value(), md, rp);
         FPM[filterName] = rp;
+		qDebug()<<ai.key()<<" init ok";
     }
 
     return FPM;

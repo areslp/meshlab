@@ -9,6 +9,7 @@
 #include <wrap/qt/checkGLError.h>
 #include <stdio.h>
 #include <assert.h>
+#include <fstream>
 using namespace std;
 using namespace vcg;
 
@@ -36,7 +37,7 @@ SdfGpuPlugin::SdfGpuPlugin()
 void SdfGpuPlugin::initParameterSet(QAction *action, MeshModel &/*m*/, RichParameterSet &par)
 {
 
-    qDebug() << "called here!";
+    //qDebug() << "called here!";
      mAction = ID(action);
     QStringList onPrimitive; onPrimitive.push_back("On vertices"); onPrimitive.push_back("On Faces");
    par.addParam( new RichEnum("onPrimitive", 0, onPrimitive, "Metric:",
@@ -223,6 +224,34 @@ bool SdfGpuPlugin::applyFilter(QAction */*filter*/, MeshDocument &md, RichParame
       else
           applySdfPerFace(*mm);
 
+  }
+
+
+  // LP: save output
+  if(mOnPrimitive == ON_FACES)
+  {
+	  CMeshO& cm=mm->cm;
+	  if(!mm->hasDataMask(MeshModel::MM_VERTFACETOPO)) {
+		  mm->updateDataMask(MeshModel::MM_VERTFACETOPO);
+	  }
+	  if(!mm->hasDataMask(MeshModel::MM_VERTCURV)) {
+		  mm->updateDataMask(MeshModel::MM_VERTCURV);
+		  // vcg::tri::UpdateCurvature<CMeshO>::VertexCurvature(cm);
+	  }
+	  //当前目录
+	  QDir dir;
+	  //dir.currentPath();
+	  //设置输出文件
+	  std::string ofs=dir.currentPath().toStdString();
+	  ofs.append("/fq_ml.txt");
+	  qDebug()<<"ofs:"<<ofs.c_str();
+	  ofstream oo(ofs.c_str());
+	  int face_size=cm.face.size();
+	  for (int i = 0; i < face_size; i++) {
+		  float gc=cm.face[i].Q();
+		  oo<<i<<" "<<gc<<endl;
+	  }
+	  oo.close();
   }
 
 

@@ -461,7 +461,10 @@ int main(int argc, char *argv[])
 	
 	printf("Loading Plugins:\n");
   server.loadPlugins();
-  if(filterFP) server.dumpPluginInfoDoxygen(filterFP);
+  if(filterFP) 
+  {
+	  server.dumpPluginInfoDoxygen(filterFP);
+  }
 	
 	
 	if(meshNamesIn.isEmpty()) {

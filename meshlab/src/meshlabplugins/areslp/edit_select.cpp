@@ -97,10 +97,10 @@ void EditSelectPlugin::set_vert_q(MeshModel& m){
         m.updateDataMask(MeshModel::MM_VERTQUALITY);
     }
     //read quality file
-	if (!isset)
-	{
+	//if (!isset)
+	//{
 
-	}
+	//}
 	
     QFileDialog fileDialog;
     QString qfile;
@@ -583,4 +583,32 @@ void normalize(std::map<int,double>& m){
 		float v=it->second;
 		it->second=(v-vmin)/(vmax-vmin);
 	}
+}
+
+QString EditSelectPlugin::filterName(FilterIDType c) const
+{
+	switch(c) {
+		case SET_VERT_Q:
+			return QString("SET_VERT_Q");
+		case SET_FACE_Q:
+			return QString("SET_FACE_Q");
+		case SAVE_CURVATURE:
+			return QString("SAVE_CURVATURE");
+		case SET_FACE_Q2:
+			return QString("SET_FACE_Q2");
+		case SAVE_FACE_Q:
+			return QString("SAVE_FACE_Q");
+		case SET_FACE_Q3:
+			return QString("SET_FACE_Q3");
+		case SAVE_SEP_LABEL:
+			return QString("SAVE_SEP_LABEL");
+		case SAVE_VERT_Q:
+			return QString("SAVE_VERT_Q");
+		case SET_Q_PAPER:
+			return QString("SET_Q_PAPER");
+		default:
+			assert(0);
+	}
+
+	return QString("error!");
 }

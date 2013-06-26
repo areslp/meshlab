@@ -121,7 +121,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				AdditionalOptions="-Zm200 -w34100 -w34189"
-				Optimization="2"
+				Optimization="0"
 				AdditionalIncludeDirectories="&quot;$(QTDIR)\include\QtCore&quot;,&quot;$(QTDIR)\include\QtGui&quot;,&quot;$(QTDIR)\include\QtOpenGL&quot;,&quot;$(QTDIR)\include\QtXml&quot;,&quot;$(QTDIR)\include\QtXmlPatterns&quot;,&quot;$(QTDIR)\include\QtScript&quot;,&quot;$(QTDIR)\include&quot;,&quot;..\..&quot;,&quot;..\..\..\vcglib&quot;,&quot;..\external\glew-1.7.0\include&quot;,&quot;.&quot;,&quot;..\external\jhead-2.95&quot;,&quot;$(QTDIR)\include\ActiveQt&quot;,&quot;release&quot;,$(QTDIR)\mkspecs\default"
 				PreprocessorDefinitions="_WINDOWS,UNICODE,WIN32,QT_LARGEFILE_SUPPORT,NOMINMAX,GLEW_STATIC,_CRT_SECURE_NO_WARNINGS,QT_NO_DEBUG,QT_SCRIPT_LIB,QT_XMLPATTERNS_LIB,QT_XML_LIB,QT_OPENGL_LIB,QT_GUI_LIB,QT_CORE_LIB,QT_HAVE_MMX,QT_HAVE_3DNOW,QT_HAVE_SSE,QT_HAVE_MMXEXT,QT_HAVE_SSE2,QT_THREAD_SUPPORT,NDEBUG"
 				GeneratePreprocessedFile="0"

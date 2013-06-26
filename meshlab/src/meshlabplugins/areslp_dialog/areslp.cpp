@@ -183,3 +183,8 @@ void EditAreslpPlugin::mouseMoveEvent(QMouseEvent *event, MeshModel &mm, GLArea 
 void EditAreslpPlugin::mouseReleaseEvent(QMouseEvent *event, MeshModel &mm, GLArea * gla)
 {
 }
+
+QString EditAreslpPlugin::filterName(FilterIDType c) const
+{
+	return QString("EditAresPlugin");
+}

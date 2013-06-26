@@ -47,7 +47,7 @@ public:
     }
 
     static const QString Info();
-
+	QString filterName(FilterIDType filter) const;
     virtual bool StartEdit(MeshModel &/*m*/, GLArea * /*parent*/);
     virtual void EndEdit(MeshModel &/*m*/, GLArea * /*parent*/);
     virtual void Decorate(MeshModel &/*m*/, GLArea * /*parent*/, QPainter *);
