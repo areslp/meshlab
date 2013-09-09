@@ -21,10 +21,11 @@
 *                                                                           *
 ****************************************************************************/
 
+#include <fstream>
+#include <iostream>
 #include "edit_select.h"
 #include <wrap/gl/pick.h>
 #include <meshlab/glarea.h>
-#include <fstream>
 
 using namespace std;
 using namespace vcg;
@@ -85,50 +86,57 @@ void EditSelectPlugin::mousePressEvent(QMouseEvent * event, MeshModel &m, GLArea
 
 void EditSelectPlugin::mouseMoveEvent(QMouseEvent * event, MeshModel &/*m*/, GLArea * gla)
 {
-	prev=cur;
-	cur=event->pos();
-	isDragging = true;
-	gla->update();
+    prev=cur;
+    cur=event->pos();
+    isDragging = true;
+    gla->update();
 
-	//    // to avoid too frequent rendering
-	//    if(gla->lastRenderingTime() < 200 )
-	//    {
-	//    }
-	//    else{
-	//      gla->makeCurrent();
-	//      glDrawBuffer(GL_FRONT);
-	//      DrawXORRect(gla,true);
-	//      glDrawBuffer(GL_BACK);
-	//      glFlush();
-	//    }
+    // to avoid too frequent rendering
+    // if(gla->lastRenderingTime() < 200 )
+    // {
+    // }
+    // else{
+        // gla->makeCurrent();
+        // glDrawBuffer(GL_FRONT);
+        // DrawXORRect(gla,true);
+        // glDrawBuffer(GL_BACK);
+        // glFlush();
+    // }
 }
 
 void EditSelectPlugin::mouseReleaseEvent(QMouseEvent * event, MeshModel &m, GLArea * gla)
 {
+    qDebug()<<"mouseReleaseEvent";
 	gla->update();
 	prev=cur;
 	cur=event->pos();
 	isDragging = false;
 	
-	//output current selected faces
-	//当前目录
+	//output current selected faces and verts
     QDir dir;
-    //dir.currentPath();
     //设置输出文件
     std::string ofs=dir.currentPath().toStdString();
-    ofs.append("/sub.txt");
-    qDebug()<<"ofs:"<<ofs.c_str();
+    ofs.append("/selected_faces.txt");
     ofstream oo(ofs.c_str());
-
-	CMeshO& cm=m.cm;
-	int face_size=cm.face.size();
-	for (int i = 0; i < face_size; i++) {
-		if(cm.face[i].IsS()){
-			oo<<i+1<<endl; //we output the index+1, so it can be directly used in matlab
-		}
-	}
-
-	oo.close();
+    CMeshO& cm=m.cm;
+    for (int i = 0; i < cm.fn; i++) {
+        if(cm.face[i].IsS()){
+            // oo<<i+1<<endl; //we output the index+1, so it can be directly used in matlab
+            oo<<i<<endl; //we want to use it directly in meshlab now!
+            qDebug()<<i;
+        }
+    }
+    oo.close();
+    ofs=dir.currentPath().toStdString();
+    ofs.append("/selected_verts.txt");
+    oo.open(ofs.c_str());
+    for (int i = 0; i < cm.vn; i++) {
+        if(cm.vert[i].IsS()){
+            oo<<i<<endl; //we want to use it directly in meshlab now!
+            qDebug()<<i;
+        }
+    }
+    oo.close();
 }
 
 void EditSelectPlugin::DrawXORRect(GLArea * gla, bool doubleDraw)
@@ -210,10 +218,13 @@ void EditSelectPlugin::Decorate(MeshModel &m, GLArea * gla)
 				for(vpi=LastSelVert.begin();vpi!=LastSelVert.end();++vpi)
 					(*vpi)->SetS();
 			case SMClear :  // Subtract mode : The faces in the rect must be de-selected
-				for(vpi=NewSelVert.begin();vpi!=NewSelVert.end();++vpi)
-					(*vpi)->SetS();
+				for(vpi=NewSelVert.begin();vpi!=NewSelVert.end();++vpi){
+					// qDebug()<<"1";
+                    (*vpi)->SetS();
+                }
 				break;
 			}
+            qDebug()<<"Set selected verts complete";
 		}
 		else
 		{

@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'pickpointsDialog.ui'
 **
-** Created: Thu Jan 24 17:07:05 2013
+** Created: Sun Sep 1 18:44:56 2013
 **      by: Qt User Interface Compiler version 4.8.1
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!

@@ -108,9 +108,9 @@ void ExtraMeshDecoratePlugin::decorate(QAction *a, MeshDocument &md, RichParamet
         {
             glPushAttrib(GL_ENABLE_BIT );
             float NormalLen=rm->getFloat(NormalLength());
-			cout<<"normal len:"<<NormalLen<<endl;
+			// cout<<"normal len:"<<NormalLen<<endl;
             float LineLen = m.cm.bbox.Diag()*NormalLen;
-			cout<<"linelen:"<<LineLen<<endl;
+			// cout<<"linelen:"<<LineLen<<endl;
             CMeshO::VertexIterator vi;
             CMeshO::FaceIterator fi;
             glDisable(GL_LIGHTING);

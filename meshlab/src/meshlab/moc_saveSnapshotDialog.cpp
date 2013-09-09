@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'saveSnapshotDialog.h'
 **
-** Created: Thu Jan 24 16:57:29 2013
+** Created: Sun Sep 1 18:33:13 2013
 **      by: The Qt Meta Object Compiler version 63 (Qt 4.8.1)
 **
 ** WARNING! All changes made in this file will be lost!

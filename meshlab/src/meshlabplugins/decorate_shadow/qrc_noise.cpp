@@ -1,8 +1,8 @@
 /****************************************************************************
 ** Resource object code
 **
-** Created: Mon Mar 18 13:15:08 2013
-**      by: The Resource Compiler for Qt version 4.8.2
+** Created: Sun Sep 1 18:44:35 2013
+**      by: The Resource Compiler for Qt version 4.8.1
 **
 ** WARNING! All changes made in this file will be lost!
 *****************************************************************************/
@@ -10,7 +10,7 @@
 #include <QtCore/qglobal.h>
 
 static const unsigned char qt_resource_data[] = {
-  // D:/work/meshlab/meshlab/src/meshlabplugins/decorate_shadow/rand.png
+  // /home/l/work/meshlab/meshlab/src/meshlabplugins/decorate_shadow/rand.png
   0x0,0x0,0x30,0x1e,
   0x89,
   0x50,0x4e,0x47,0xd,0xa,0x1a,0xa,0x0,0x0,0x0,0xd,0x49,0x48,0x44,0x52,0x0,
